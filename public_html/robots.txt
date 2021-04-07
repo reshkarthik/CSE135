@@ -1,0 +1,9 @@
+# Group 1
+User-agent: Googlebot
+Disallow: /nogooglebot/
+
+# Group 2
+User-agent: *
+Allow: /
+
+Credit: https://developers.google.com/search/docs/advanced/robots/create-robots-txt
