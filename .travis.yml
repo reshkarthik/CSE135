@@ -1,3 +1,0 @@
-language: html
-before_script:
-- sudo systemctl restart apache2
