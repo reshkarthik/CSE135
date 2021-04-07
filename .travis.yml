@@ -1,9 +1,5 @@
 language: php
 
-php:
-    - 5.3
-    - 5.4
-
 before_script:
     - sudo apt-get install apache2
     - sudo systemctl restart apache2
