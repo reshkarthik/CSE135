@@ -16,5 +16,5 @@ jobs:
           
           script: |
             cd /var/www/reshmakarthik.studio
-            git clone git@github.com:reshkarthik/CSE135.git
+            git pull
             echo 'deployment successful'
