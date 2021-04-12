@@ -17,7 +17,10 @@
       background-color: #FF4136;
     }
   }
-    
+  html,
+body {
+  height: 100%;
+}
   ul{
     float: right;
     list-style-type: none;
@@ -84,7 +87,7 @@
   
   .title h2{
     position: absolute;
-    Left: 30%;
+    left: 30%;
     color: white;
     font-size: 20px;
   }
@@ -92,7 +95,7 @@
   .icons {
     position: absolute;
     top: 90%;
-    Left: 19%;
+    left: 19%;
     transform: translate(-50%,-50%);
   }
   .icons img {
@@ -100,6 +103,11 @@
     height: auto;
   }
   
+  .desc {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+  }
   .btn {
     text-decoration: none;
     color:white;
