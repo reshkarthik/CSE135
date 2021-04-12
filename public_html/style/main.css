@@ -64,6 +64,8 @@ ul li.active a{
 }
 
 .title h2{
+  position: relative;
+  left: 10%;
   color: white;
   font-size: 40px;
 }
