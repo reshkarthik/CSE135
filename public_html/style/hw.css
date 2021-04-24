@@ -53,7 +53,7 @@
   
   .title {
     position: absolute;
-    top: 30%;
+    top: 20%;
     Left: 50%;
     transform: translate(-50%,-50%);
   }
@@ -63,24 +63,47 @@
     font-size: 50px;
   }
   
-  .title h2{
+  .subtitle1 {
     position: absolute;
+    top: 40%;
     Left: 30%;
-    color: white;
-    font-size: 20px;
+    transform: translate(-50%,-50%);
+  }
+
+  .subtitle2 {
+    position: absolute;
+    top: 70%;
+    Left: 28%;
+    transform: translate(-50%,-50%);
   }
   
-  .button {
+  h2 {
+    color: black;
+    font-size: 40px;
+  }
+  
+  .button1 {
+    display: inline-block;
     position: absolute;
     top: 50%;
     Left: 50%;
+    padding: 10px 10px;
+    transform: translate(-50%,-50%);
+  }
+
+
+  .button2 {
+    position: absolute;
+    top: 80%;
+    Left: 50%;
+    padding: 10px 10px;
     transform: translate(-50%,-50%);
   }
   
   .btn {
-    text-decoration: none;
+    display: inline-block;
     color:white;
-    padding: 5px 20px;
+    padding: 5px 10px;
     border: 1px solid transparent;
     transition: 0.6s ease;
   }
