@@ -1,9 +1,9 @@
 <?php echo '<html><head><title>General Request Echo</title></head>
 	<body><h1 align=center>General Request Echo</h1>
       <hr/>'; ?>
-
+      
+ <?php echo "<b>Request Method:</b>  ".$_SERVER['REQUEST_METHOD']."</br></br>"; ?> 
  <?php echo "<b>Protocol:</b>  ".$_SERVER['SERVER_PROTOCOL']."</br></br>"; ?> 
- <?php echo "<b>Method:</b>  ".$_SERVER['REQUEST_METHOD']."</br></br>"; ?> 
  <?php echo "<b>Query:</b>  ".$_SERVER['QUERY_STRING']."</br>"; ?> 
 
  <?php echo '<ul>'; ?> 

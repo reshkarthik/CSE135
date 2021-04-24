@@ -5,19 +5,22 @@ session_start();
 	<body><h1 align=center>PHP Sessions Page 1</h1>
       <hr/>'; ?>
 <?php
-    if (isset($_POST['username']) || isset($_SESSION['username'])) {
+    if (isset($_POST['username'])) {
         $_SESSION['username'] = $_POST['username'];
 
         // Use the following code to print out the variables.
         echo "<p><b>Name:</b>   ".$_SESSION['username']."<p>";
         echo '<br>';
     }
+    elseif ( isset($_SESSION['username'])){
+        echo "<p><b>Name:</b>   ".$_SESSION['username']."<p>";
+    }
     else{
         echo "<p><b>Name:</b> You do not have a name set</p>";
     }
     echo "<br/><br/>";
 echo "<a href=\"/cgi-bin/php-sessions-2.php\">Session Page 2</a><br/>";
-echo "<a href=\"/php-cgiform.html\">Perl CGI Form</a><br />";
+echo "<a href=\"/php-cgiform.html\">PHP CGI Form</a><br />";
 echo "<form style=\"margin-top:30px\" action=\"/cgi-bin/php-destroy-session.php\" method=\"get\">";
 echo "<button type=\"submit\">Destroy Session</button>";
 echo "</form>";

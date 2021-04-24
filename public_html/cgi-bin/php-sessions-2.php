@@ -6,7 +6,6 @@ session_start();
       <hr/>'; ?>
 <?php
     if (isset($_POST['username']) || isset($_SESSION['username'])) {
-        // $_SESSION['username'] = $_POST['username'];
 
         // Use the following code to print out the variables.
         echo "<p><b>Name:</b>   ".$_SESSION['username']."<p>";
