@@ -1,18 +1,19 @@
 #!/usr/bin/python3
 
 # Import modules for CGI handling 
-import cgi, cgitb, os
-
-# Create instance of FieldStorage 
+import cgi, json, os, uuid
 form = cgi.FieldStorage() 
 if ("username" in form):
-    print("Set-Cookie:username ="+form.getvalue('username'))
+    userId = str(uuid.uuid1())
+    file1 = open("/tmp/"+userId+".txt", "w")
+    file1.write(form.getvalue('username'))
+    file1.close()
+    print("Set-Cookie:user="+userId)
 print('''Cache-Control: no-cache
 Content-type: text/html\n\n''')
 print('''<html><head><title>Python Sessions</title></head>
 	<body><h1 align=center>Python Sessions P1</h1>
   	<hr/>\n''')
-
 
 user = False
 if ("username" in form):
@@ -24,9 +25,11 @@ elif 'HTTP_COOKIE' in os.environ:
     for cookie in allcookies:
         pair = cookie.split("=")
         if len(pair) > 1:
-            if pair[0] == ' username' and len(pair[1]):
+            if pair[0] == 'user' and len(pair[1]):
                 user = True
-                print("<p><b>Name:</b>   "+pair[1]+"<p>")
+                file1 = open("/tmp/"+pair[1]+".txt", "r")
+                data = file1.read()
+                print("<p><b>Name:</b>   "+data+"<p>")
                 print('<br>')
 if not user:
     print("<p><b>Name:</b> You do not have a name set</p>")

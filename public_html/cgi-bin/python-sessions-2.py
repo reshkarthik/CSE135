@@ -1,6 +1,6 @@
 #!/usr/bin/python3
  
-import os
+import os, json
 
 print('''Cache-Control: no-cache
 Content-type: text/html\n\n''')
@@ -13,10 +13,12 @@ if 'HTTP_COOKIE' in os.environ:
     allcookies = os.environ['HTTP_COOKIE'].split(";")
     for cookie in allcookies:
         pair = cookie.split("=")
-        if pair[0] == ' username' and len(pair[1]):
-            if pair[0] == ' username':
+        if len(pair) > 1:
+            if pair[0] == 'user' and len(pair[1]):
                 user = True
-                print("<p><b>Name:</b>   "+pair[1]+"<p>")
+                file1 = open("/tmp/"+pair[1]+".txt", "r")
+                data = file1.read()
+                print("<p><b>Name:</b>   "+data+"<p>")
                 print('<br>')
 if not user:
     print("<p><b>Name:</b> You do not have a name set</p>")
