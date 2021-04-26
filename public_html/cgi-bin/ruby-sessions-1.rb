@@ -23,7 +23,7 @@ if username == ""
     arr = ENV["HTTP_COOKIE"].split(";",-1)
     arr.each do |pair|
         arr2 = pair.split("=",-2)
-        if arr2.length() > 1 && arr2[0] == " user" && arr2[1].length > 0
+        if arr2.length() > 1 && arr2[0] == "user" && arr2[1].length > 0
             userId = arr2[1]
             username = File.open("/tmp/"+userId+".txt").read
         end
