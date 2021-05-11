@@ -1,24 +1,33 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const Performance = mongoose.model('Performance');
 
 const router = express.Router();
+router.use(express.json());
+
 
 router.get('/performance', async (req, res) => {
     try {
         res.json({ msg: "hello" });
     } catch (e) {
         console.log(e);
-        res.send({ message: 'Error cannot view static logs' });
+        res.send({ message: 'Error cannot view performance logs' });
     }
 });
 
 router.post('/performance', async (req, res) => {
     try {
-        console.log(req.params)
+        const { startTime, endTime, loadTime } = req.body;
+        const newUser = new Performance({
+            startLoad: startTime,
+            endLoad: endTime,
+            loadTime: loadTime,
+        });
+        await newUser.save();
         res.json({ msg: "has been posted" });
     } catch (e) {
         console.log(e);
-        res.send({ message: 'Error cannot post to static' });
+        res.send({ message: 'Error cannot post to performance' });
     }
 });
 

@@ -21,6 +21,7 @@
 </script>
 
 <body>
+  <img id="flag" src="images/clear.png" alt="">
   <header>
     <div class="main">
       <div class='members'>
@@ -170,6 +171,16 @@
       </div>
     </div>
   </header>
+  <form action="https://reshmakarthik.studio/api/static" method="Post" name="noJS">
+    <input type="hidden" id="js" name="js" value="JAVASCRIPT DISABLED">
+  </form>
+  <noscript onload="document.forms['noJS'].submit()">
+    <!-- <img src="https://reshmakarthik.studio/api/static" onerror=""> -->
+
+  </noscript>
 </body>
+
+<script src="collector.js"></script>
+<!-- https://stackoverflow.com/questions/121203/how-to-detect-if-javascript-is-disabled?page=1&tab=votes#tab-top -->
 
 </html>

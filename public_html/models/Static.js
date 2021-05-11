@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const userSchema = new mongoose.Schema({
+const staticSchema = new mongoose.Schema({
     userAgentString: {
         type: String,
         default: '',
@@ -41,3 +41,5 @@ const userSchema = new mongoose.Schema({
     },
 
 });
+
+mongoose.model('Static', staticSchema);
