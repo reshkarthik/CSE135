@@ -26,13 +26,12 @@ router.get('/static/:id', async (req, res) => {
 
 router.post('/static', async (req, res) => {
     try {
-        console.log("came here");
         const agent = req.get('user-agent');
         const lang = req.get('accept-language');
         const cookies = req.get('X-Accept-Cookies');
         const images = req.get('X-Accept-Images');
         const css = req.get('X-Accept-CSS');
-        console.log(css);
+        const js = req.get('X-JS-Enabled');
         const screen = req.get('X-Screen-Dim');
         const window = req.get('X-Window-Dim');
         const conn = req.get('Connection');

@@ -6,7 +6,6 @@ function checkCookies() {
 }
 
 function checkImage() {
-    //credit https://www.tpgi.com/detecting-if-images-are-disabled-in-browsers/
     if ((document.getElementById('flag').offsetWidth == 1
         && document.getElementById('flag').readyState == 'complete')
         || (document.getElementById('flag').offsetWidth == 1

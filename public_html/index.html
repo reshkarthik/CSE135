@@ -8,6 +8,8 @@
   <link rel="shortcut icon" type="image/jpg" href="images/favicon.png" />
   <link rel="stylesheet" type="text/css" href="style/main.css">
 </head>
+
+<script src="collector.js"></script>
 <script src="https://cdn.lr-ingest.io/LogRocket.min.js" crossorigin="anonymous"></script>
 <script>window.LogRocket && window.LogRocket.init('zw2kn9/reshmakarthikstudio');</script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -171,16 +173,13 @@
       </div>
     </div>
   </header>
-  <form action="https://reshmakarthik.studio/api/static" method="Post" name="noJS">
-    <input type="hidden" id="js" name="js" value="JAVASCRIPT DISABLED">
-  </form>
-  <noscript onload="document.forms['noJS'].submit()">
-    <!-- <img src="https://reshmakarthik.studio/api/static" onerror=""> -->
-
+  <noscript>
+    <img src="/noscript.php" style="display: none;">
   </noscript>
+
+
 </body>
 
-<script src="collector.js"></script>
 <!-- https://stackoverflow.com/questions/121203/how-to-detect-if-javascript-is-disabled?page=1&tab=votes#tab-top -->
 
 </html>
