@@ -26,6 +26,7 @@ router.get('/static/:id', async (req, res) => {
 
 router.post('/static', async (req, res) => {
     try {
+        console.log("came here");
         const agent = req.get('user-agent');
         const lang = req.get('accept-language');
         const cookies = req.get('X-Accept-Cookies');

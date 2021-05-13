@@ -24,7 +24,7 @@ function checkCSS() {
     }
     return true;
 }
-
+console.log("here instead");
 const startTime = window.performance.timing.navigationStart;
 const endTime = new Date().getTime();
 const loadTime = endTime - startTime;
