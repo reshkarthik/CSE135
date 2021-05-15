@@ -1,8 +1,11 @@
 require('./models/Static');
 require('./models/Performance');
+require('./models/Activity');
+
 
 const express = require('express');
 const mongoose = require('mongoose');
+
 const mongoUri =
     'mongodb+srv://cse135:its135@135.uyiq0.mongodb.net/135Database'
 const staticRoutes = require('./routes/staticRoutes.js');

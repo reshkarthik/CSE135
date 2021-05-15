@@ -3,6 +3,10 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const performanceSchema = new mongoose.Schema({
+    user: {
+        type: String,
+        default: '',
+    },
     startLoad: {
         type: Number,
         default: 0,
@@ -15,6 +19,7 @@ const performanceSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
+
 
 });
 

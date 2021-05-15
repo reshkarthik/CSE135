@@ -3,6 +3,10 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const staticSchema = new mongoose.Schema({
+    user: {
+        type: String,
+        default: '',
+    },
     userAgentString: {
         type: String,
         default: '',

@@ -1,9 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyparser = require('body-parser');
+const fs = require('fs');
 const Static = mongoose.model('Static');
 
 const router = express.Router();
-
+router.use(bodyparser.json());
 
 
 router.get('/static', async (req, res) => {
@@ -26,7 +28,6 @@ router.get('/static/:id', async (req, res) => {
 
 router.post('/static', async (req, res) => {
     try {
-        console.log("came here");
         const agent = req.get('user-agent');
         const lang = req.get('accept-language');
         const cookies = req.get('X-Accept-Cookies');
@@ -36,20 +37,24 @@ router.post('/static', async (req, res) => {
         const screen = req.get('X-Screen-Dim');
         const window = req.get('X-Window-Dim');
         const conn = req.get('Connection');
-
-        // const newUser = new Static({
-        //     userAgentString: agent,
-        //     userLang: lang,
-        //     cookies: cookies,
-        //     javaScript: true,
-        //     images: true,
-        //     CSS: true,
-        //     screenDim: screen,
-        //     windowDim: window,
-        //     networkConn: conn,
-        // });
-        // await newUser.save();
-        res.json({ msg: "has been posted" });
+        var session = req.get('X-Session-ID');
+        if (session === undefined) {
+            session = fs.readFileSync('newfile.txt', 'utf8');
+        }
+        const newUser = new Static({
+            user: session,
+            userAgentString: agent,
+            userLang: lang,
+            cookies: cookies,
+            javaScript: js,
+            images: images,
+            CSS: css,
+            screenDim: screen,
+            windowDim: window,
+            networkConn: conn,
+        });
+        await newUser.save();
+        res.json({ id: newUser._id });
     } catch (e) {
         console.log(e);
         res.send({ message: 'Error cannot post to static' });

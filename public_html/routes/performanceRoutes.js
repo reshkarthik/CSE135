@@ -17,14 +17,15 @@ router.get('/performance', async (req, res) => {
 
 router.post('/performance', async (req, res) => {
     try {
-        const { startTime, endTime, loadTime } = req.body;
+        const { startTime, endTime, loadTime, sessID } = req.body;
         const newUser = new Performance({
+            user: sessID,
             startLoad: startTime,
             endLoad: endTime,
             loadTime: loadTime,
         });
         await newUser.save();
-        res.json({ msg: "has been posted" });
+        res.json({ id: newUser._id });
     } catch (e) {
         console.log(e);
         res.send({ message: 'Error cannot post to performance' });
