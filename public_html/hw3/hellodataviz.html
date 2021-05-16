@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSE 135</title>
+    <link rel="shortcut icon" type="image/jpg" href="../images/favicon.png" />
+    <link rel="stylesheet" type="text/css" href="../style/hw.css">
+    <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+    <script type="module" src="../collector.js"></script>
+  <script>
+    window.onbeforeunload = function (event) {
+      const time = new Date().getTime();
+      fetch('https://reshmakarthik.studio/api/activity/0', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ "timeExit": time })
+      })
+        .then(response => response.json())
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+      event.returnValue = null; //"Any text"; //true; //false;
+      //return null; //"Any text"; //true; //false;
+    };
+  </script>
+</head>
+
+<body>
+    <img id="flag" src="../images/clear.png" alt="">
+    <header>
+        <div class="main">
+            <div class="logo">
+                <a href="/">
+                    <img src="../images/logo.jpg" alt="">
+                </a>
+            </div>
+            <ul>
+                <li>
+                    <a href="/">Home</a>
+                </li>
+                <li>
+                    <a href="../members/reshmakarthikeyan.html">Members</a>
+                </li>
+                <li class="active">
+                    <a href="/"> Homework</a>
+                </li>
+            </ul>
+        </div>
+        <div id="myChart" class="graph1"></div>
+        <div id="myBar" class="graph2"></div>
+    </header>
+    <div id="pieChart"></div>
+    <script>
+        let lineConfig = {
+            type: 'line',
+            title: {
+                text: 'User Visits Across Pages',
+                fontSize: 24,
+            },
+            legend: {
+                draggable: true,
+            },
+            scaleX: {
+                // Set scale label
+                label: { text: 'Page' },
+                // Convert text on scale indices
+                labels: ['Home', 'Member', 'Database', 'Data Viz', '404']
+            },
+            scaleY: {
+                // Scale label with unicode character
+                label: { text: 'Number of Visits' }
+            },
+            plot: {
+                // Animation docs here:
+                // https://www.zingchart.com/docs/tutorials/styling/animation#effect
+                animation: {
+                    effect: 'ANIMATION_EXPAND_BOTTOM',
+                    method: 'ANIMATION_STRONG_EASE_OUT',
+                    sequence: 'ANIMATION_BY_NODE',
+                    speed: 275,
+                }
+            },
+            series: [
+                {
+                    // Plot 1 values, linear data
+                    values: [23, 20, 27, 29, 1],
+                    text: 'User 1',
+                },
+                {
+                    // Plot 2 values, linear data
+                    values: [35, 42, 33, 49, 1],
+                    text: 'User 2'
+                },
+                {
+                    // Plot 2 values, linear data
+                    values: [15, 22, 13, 33, 1],
+                    text: 'User 3'
+                }
+            ]
+        };
+
+        // Render Method[3]
+        zingchart.render({
+            id: 'myChart',
+            data: lineConfig,
+        });
+        fetch("https://reshmakarthik.studio/api/activity")
+            .then(response => response.json())
+            .then(data => showData(data.allActiivities));
+        function showData(newData) {
+            var users = [];
+            var pages = [];
+            var i, j;
+            for (i = 0; i < newData.length; i++) {
+                users.push(newData[i].user);
+                pages.push(newData[i].page);
+            }
+            const uniqueUsers = new Set(users);
+            var allUser = [[0,0,0,0,0], [0,0,0,0,0], [0,0,0,0,0]];
+            i = 0;
+            for (let item of uniqueUsers){
+                if (i === 3){
+                    break;
+                }
+                for (j = 0; j < pages.length; j++){
+                    if (users[j] === item){
+                        if (pages[j] == '/'){
+                            allUser[i][0]++;
+                        }
+                        else if (pages[j] == '/members/reshmakarthikeyan.html'){
+                            allUser[i][1]++;
+                        }
+                        else if (pages[j] == '/hw3/database.html'){
+                            allUser[i][2]++;
+                        }
+                        else if (pages[j] == '/hw3/hellodataviz.html'){
+                            allUser[i][3]++;
+                        }
+                        else{
+                            allUser[i][4]++;
+                        }
+                    }
+                }
+                i += 1;
+            }
+            const results = [
+                {
+                    // Plot 1 values, linear data
+                    values: allUser[0],
+                    text: 'User 1',
+                },
+                {
+                    // Plot 2 values, linear data
+                    values: allUser[1],
+                    text: 'User 2'
+                },
+                {
+                    // Plot 2 values, linear data
+                    values: allUser[2],
+                    text: 'User 3'
+                }
+            ]
+            zingchart.exec('myChart', 'setseriesdata', {
+                data: results
+            });
+        }
+
+        let barConfig = {
+            type: 'bar',
+            title: {
+                text: 'Browser Effect on Load Time Across Pages',
+                fontSize: 20,
+            },
+            legend: {
+                draggable: true,
+            },
+            scaleX: {
+                // Set scale label
+                label: { text: 'Page' },
+                // Convert text on scale indices
+                labels: ['Home', 'Member', 'Database', 'Data Viz', '404']
+            },
+            scaleY: {
+                // Scale label with unicode character
+                label: { text: 'Load Time (ms)' }
+            },
+            plot: {
+                // Animation docs here:
+                // https://www.zingchart.com/docs/tutorials/styling/animation#effect
+                animation: {
+                    effect: 'ANIMATION_EXPAND_BOTTOM',
+                    method: 'ANIMATION_STRONG_EASE_OUT',
+                    sequence: 'ANIMATION_BY_NODE',
+                    speed: 275,
+                }
+            },
+            plotarea: {
+                marginLeft:'dynamic',
+                marginRight:'dynamic'
+            },
+            series: [
+                {
+                    // Plot 1 values, linear data
+                    values: [23, 20, 27, 29, 1],
+                    text: 'Chrome',
+                },
+                {
+                    // Plot 2 values, linear data
+                    values: [35, 42, 33, 49, 1],
+                    text: 'Safari'
+                }
+            ]
+        };
+
+        // Render Method[3]
+        zingchart.render({
+            id: 'myBar',
+            data: barConfig,
+            width: '50%',
+        });
+        fetch("https://reshmakarthik.studio/api/performance")
+            .then(response => response.json())
+            .then(data => showData2(data.allPerformance));
+        function showData2(newData) {
+            var browsers = [];
+            var pages1 = [];
+            var loadTime = [];
+            var i, j;
+            for (i = 0; i < newData.length; i++) {
+                browsers.push(newData[i].browser);
+                pages1.push(newData[i].page);
+                loadTime.push(newData[i].loadTime);
+            }
+            var allPages = [[[],[],[],[],[]], [[],[],[],[],[]]];
+            for (j = 0; j < pages1.length; j++){
+                if (browsers[j].indexOf("Chrome") != -1){
+                    if (pages1[j] == '/'){
+                        allPages[0][0].push(loadTime[j]);
+                    }
+                    else if (pages1[j] == '/members/reshmakarthikeyan.html'){
+                        allPages[0][1].push(loadTime[j])
+                    }
+                    else if (pages1[j] == '/hw3/database.html'){
+                        allPages[0][2].push(loadTime[j])
+                    }
+                    else if (pages1[j] == '/hw3/hellodataviz.html'){
+                        allPages[0][3].push(loadTime[j])
+                    }
+                    else{
+                        allPages[0][4].push(loadTime[j])
+                    }
+                }
+                else{
+                    if (pages1[j] == '/'){
+                        allPages[1][0].push(loadTime[j]);
+                    }
+                    else if (pages1[j] == '/members/reshmakarthikeyan.html'){
+                        allPages[1][1].push(loadTime[j])
+                    }
+                    else if (pages1[j] == '/hw3/database.html'){
+                        allPages[1][2].push(loadTime[j])
+                    }
+                    else if (pages1[j] == '/hw3/hellodataviz.html'){
+                        allPages[1][3].push(loadTime[j])
+                    }
+                    else{
+                        allPages[1][4].push(loadTime[j])
+                    }
+                }
+            }
+            var result = [[0,0,0,0,0], [0,0,0,0,0]];
+            var sum = 0;
+            for (i = 0; i < allPages.length; i++){
+                for (j = 0; j < allPages[i].length; j++){
+                    sum = 0;
+                    for (var k = 0; k < allPages[i][j].length; k++){
+                        sum += parseInt(allPages[i][j][k]);
+                    }
+                    if (allPages[i][j].length === 0){
+                        result[i][j] = 0;
+                    }
+                    else{
+                        result[i][j] = sum/allPages[i][j].length;
+                    }
+                }
+            }
+            const results = [
+                {
+                    // Plot 1 values, linear data
+                    values: result[0],
+                    text: 'Chrome',
+                },
+                {
+                    // Plot 2 values, linear data
+                    values: result[1],
+                    text: 'Safari'
+                },
+            ]
+            zingchart.exec('myBar', 'setseriesdata', {
+                data: results
+            });
+        }
+
+        var pieConfig = {
+            type: "pie",
+            plot: {
+                borderColor: "#2B313B",
+                borderWidth: 5,
+                // slice: 90,
+                valueBox: {
+                placement: 'out',
+                text: '%t\n%npv%',
+                fontFamily: "Open Sans"
+                },
+                tooltip: {
+                fontSize: '18',
+                fontFamily: "Open Sans",
+                padding: "5 10",
+                text: "%npv%"
+                },
+                animation: {
+                effect: 2,
+                method: 5,
+                speed: 900,
+                sequence: 1,
+                delay: 3000
+                }
+            },
+            source: {
+                text: 'gs.statcounter.com',
+                fontColor: "#8e99a9",
+                fontFamily: "Open Sans"
+            },
+            title: {
+                fontColor: "#8e99a9",
+                text: 'Global Browser Usage',
+                align: "left",
+                offsetX: 10,
+                fontFamily: "Open Sans",
+                fontSize: 25
+            },
+            subtitle: {
+                offsetX: 10,
+                offsetY: 10,
+                fontColor: "#8e99a9",
+                fontFamily: "Open Sans",
+                fontSize: "16",
+                text: 'May 2016',
+                align: "left"
+            },
+            plotarea: {
+                margin: "20 0 0 0"
+            },
+            series: [{
+                values: [11.38],
+                text: "Internet Explorer",
+                backgroundColor: '#50ADF5',
+                },
+                {
+                values: [56.94],
+                text: "Chrome",
+                backgroundColor: '#FF7965',
+                detached: true
+                },
+                {
+                values: [14.52],
+                text: 'Firefox',
+                backgroundColor: '#FFCB45',
+                detached: true
+                },
+                {
+                text: 'Safari',
+                values: [9.69],
+                backgroundColor: '#6877e5'
+                },
+                {
+                text: 'Other',
+                values: [7.48],
+                backgroundColor: '#6FB07F'
+                }
+            ]
+            };
+ 
+zingchart.render({
+  id: 'pieChart',
+  data: pieConfig,
+  height: '100%',
+  width: '100%'
+});
+        
+    </script> 
+</body>
+
+</html>

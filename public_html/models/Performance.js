@@ -19,7 +19,14 @@ const performanceSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
-
+    page: {
+        type: String,
+        default: '',
+    },
+    browser: {
+        type: String,
+        default: '',
+    },
 
 });
 

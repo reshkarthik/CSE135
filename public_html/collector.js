@@ -32,7 +32,7 @@ function checkCSS() {
 }
 
 async function postData() {
-    const response = await fetch('server.php', {
+    const response = await fetch('/server.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -98,7 +98,7 @@ window.addEventListener('load', (event) => {
         });
     endTime = new Date().getTime();
     loadTime = endTime - startTime;
-    data = { "startTime": startTime, "endTime": endTime, "loadTime": loadTime, 'sessID': sessID };
+    data = { "startTime": startTime, "endTime": endTime, "loadTime": loadTime, 'sessID': sessID, "page": window.location.pathname };
     fetch('https://reshmakarthik.studio/api/performance', {
         method: 'POST',
         headers: {

@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Performance = mongoose.model('Performance');
+const fs = require('fs');
 
 const router = express.Router();
 router.use(express.json());
@@ -17,12 +18,19 @@ router.get('/performance', async (req, res) => {
 
 router.post('/performance', async (req, res) => {
     try {
-        const { startTime, endTime, loadTime, sessID } = req.body;
+        var { startTime, endTime, loadTime, sessID, page } = req.body;
+        if (sessID !== undefined || sessID !== "") {
+            sessID = fs.readFileSync("sessionID.txt", 'utf8');
+        }
+
+        const agent = req.get('user-agent');
         const newUser = new Performance({
             user: sessID,
             startLoad: startTime,
             endLoad: endTime,
             loadTime: loadTime,
+            page: page,
+            browser: agent
         });
         await newUser.save();
         res.json({ id: newUser._id });

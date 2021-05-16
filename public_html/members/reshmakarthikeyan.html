@@ -7,10 +7,29 @@
     <title>CSE 135</title>
     <link rel="shortcut icon" type="image/jpg" href="../images/favicon.png" />
     <link rel="stylesheet" type="text/css" href="../style/member.css">
-    <script src="collector.js"></script>
+    <script src="../collector.js"></script>
     <noscript>
         <img src="../noscript.php" style="display: none;">
     </noscript>
+    <script>
+        window.onbeforeunload = function (event) {
+          const time = new Date().getTime();
+          console.log(time);
+          fetch('https://reshmakarthik.studio/api/activity/0', {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ "timeExit": time })
+          })
+            .then(response => response.json())
+            .catch((error) => {
+              console.error('Error:', error);
+            });
+          event.returnValue = null; //"Any text"; //true; //false;
+          //return null; //"Any text"; //true; //false;
+        };
+      </script>
 </head>
 
 <body>
@@ -26,11 +45,11 @@
                 <li>
                     <a href="/">Home</a>
                 </li>
-                <li>
-                    <a href="../members.html">Members</a>
-                </li>
                 <li class="active">
-                    <a href="../homework.html">Homework</a>
+                    <a href="../members/reshmakarthikeyan.html">Members</a>
+                </li>
+                <li>
+                    <a href="/"> Homework</a>
                 </li>
             </ul>
         </div>

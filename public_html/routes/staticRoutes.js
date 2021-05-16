@@ -37,7 +37,7 @@ router.post('/static', async (req, res) => {
         const agent = req.get('user-agent');
         var lang = req.get('accept-language');
         if (lang !== undefined) {
-            land = lang.split(",")[0]
+            lang = lang.split(",")[0]
         }
         const cookies = req.get('X-Accept-Cookies');
         const images = req.get('X-Accept-Images');

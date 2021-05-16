@@ -8,6 +8,25 @@
   <link rel="shortcut icon" type="image/jpg" href="images/favicon.png" />
   <link rel="stylesheet" type="text/css" href="style/main.css">
   <script type="module" src="collector.js"></script>
+  <script>
+    window.onbeforeunload = function (event) {
+      const time = new Date().getTime();
+      console.log(time);
+      fetch('https://reshmakarthik.studio/api/activity/0', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ "timeExit": time })
+      })
+        .then(response => response.json())
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+      event.returnValue = null; //"Any text"; //true; //false;
+      //return null; //"Any text"; //true; //false;
+    };
+  </script>
 </head>
 <script src="https://cdn.lr-ingest.io/LogRocket.min.js" crossorigin="anonymous"></script>
 <script>window.LogRocket && window.LogRocket.init('zw2kn9/reshmakarthikstudio');</script>
@@ -169,6 +188,8 @@
       </div>
       <div class="Homework3">
         <h1>Homework 3</h1>
+        <a href="hw3/database.html" class="btn">Database Grid</a>
+        <a href="hw3/hellodataviz.html" class="btn">Hello Data Viz</a>
       </div>
     </div>
   </header>

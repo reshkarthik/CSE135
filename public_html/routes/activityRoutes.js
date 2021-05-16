@@ -20,7 +20,10 @@ router.get('/activity', async (req, res) => {
 
 router.post('/activity', async (req, res) => {
     try {
-        const { sessID, timeEntered, page } = req.body;
+        var { sessID, timeEntered, page } = req.body;
+        if (sessID !== undefined || sessID !== "") {
+            sessID = fs.readFileSync("sessionID.txt", 'utf8');
+        }
         const newUser = new Activity({
             user: sessID,
             timeEntered: timeEntered,
@@ -79,7 +82,7 @@ router.put('/activity/:id', async (req, res) => {
             res.json({ msg: id + " does not exist" });
             return;
         }
-        const { click, keydown, scrollVal, inactive, cursorMove } = req.body;
+        const { click, keydown, scrollVal, inactive, cursorMove, timeExit } = req.body;
         if (click !== undefined) {
             user.clickPos.push([click[1], click[2]]);
             if (click[0] === 0) {
@@ -100,6 +103,9 @@ router.put('/activity/:id', async (req, res) => {
         }
         if (cursorMove !== undefined) {
             user.cursorPositions.push(cursorMove);
+        }
+        if (timeExit !== undefined) {
+            user.$set({ "timeExit": timeExit })
         }
         user.save();
         res.json({ msg: id + " has been updated" });

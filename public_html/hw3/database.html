@@ -7,8 +7,27 @@
     <title>CSE 135</title>
     <link rel="shortcut icon" type="image/jpg" href="../images/favicon.png" />
     <link rel="stylesheet" type="text/css" href="../style/hw.css">
-    <script src="https://cdn.zinggrid.com/zinggrid.min.js" defer></script>
-
+    <script src="https://cdn.zinggrid.com/zinggrid.min.js"></script>
+    <script type="module" src="../collector.js"></script>
+    <script>
+      window.onbeforeunload = function (event) {
+        const time = new Date().getTime();
+        console.log(time);
+        fetch('https://reshmakarthik.studio/api/activity/0', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ "timeExit": time })
+        })
+          .then(response => response.json())
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+        event.returnValue = null; //"Any text"; //true; //false;
+        //return null; //"Any text"; //true; //false;
+      };
+    </script>
 </head>
 
 <body>
@@ -25,10 +44,10 @@
                     <a href="/">Home</a>
                 </li>
                 <li>
-                    <a href="../members.html">Members</a>
+                    <a href="../members/reshmakarthikeyan.html">Members</a>
                 </li>
                 <li class="active">
-                    <a href="../homework.html">Homework</a>
+                    <a href="/"> Homework</a>
                 </li>
             </ul>
             <zing-grid id="example-grid" caption="Static Logs" data='[{
@@ -38,15 +57,15 @@
                 ]'>
             </zing-grid>
         </div>
-        
+
     </header>
     <script>
         fetch("https://reshmakarthik.studio/api/static")
             .then(response => response.json())
             .then(data => showData(data.allStatic));
-        function showData(newData){
+        function showData(newData) {
             const zingGridRef = document.querySelector('#example-grid');
-            zingGridRef.executeOnLoad( function() {
+            zingGridRef.executeOnLoad(function () {
                 zingGridRef.setAttribute('data', JSON.stringify(newData));
             });
         }
