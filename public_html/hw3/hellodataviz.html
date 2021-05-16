@@ -53,7 +53,7 @@
         <div id="myChart" class="graph1"></div>
         <div id="myBar" class="graph2"></div>
     </header>
-    <div id="pieChart"></div>
+    <div id="pieChart" class="graph3"></div>
     <script>
         let lineConfig = {
             type: 'line',
@@ -172,7 +172,7 @@
         let barConfig = {
             type: 'bar',
             title: {
-                text: 'Browser Effect on Load Time Across Pages',
+                text: 'Safari vs Chrome on Load Time Across Pages',
                 fontSize: 20,
             },
             legend: {
@@ -305,93 +305,88 @@
             });
         }
 
-        var pieConfig = {
-            type: "pie",
-            plot: {
-                borderColor: "#2B313B",
-                borderWidth: 5,
-                // slice: 90,
-                valueBox: {
-                placement: 'out',
-                text: '%t\n%npv%',
-                fontFamily: "Open Sans"
-                },
-                tooltip: {
-                fontSize: '18',
-                fontFamily: "Open Sans",
-                padding: "5 10",
-                text: "%npv%"
-                },
-                animation: {
-                effect: 2,
-                method: 5,
-                speed: 900,
-                sequence: 1,
-                delay: 3000
+        var chartData ={
+        type: 'pie',
+        plot: {
+    borderColor: "#2B313B",
+    borderWidth: 5,
+    // slice: 90,
+    valueBox: {
+      placement: 'out',
+      text: '%t\n%npv%',
+      fontFamily: "Open Sans"
+    },
+    tooltip: {
+      fontSize: '18',
+      fontFamily: "Open Sans",
+      padding: "5 10",
+      text: "%npv%"
+    }
+  },
+        title: {
+                text: 'Browser Usage on This Site',
+                fontSize: 20,
+            },
+        series: [
+        {
+          values: [35],
+          text: "this is"
+        } ,
+        {
+          values: [75]
+        }
+        ]
+        };
+        zingchart.render({
+        id: 'pieChart',
+        data: chartData,
+        width: '50%'
+      });
+      fetch("https://reshmakarthik.studio/api/static")
+            .then(response => response.json())
+            .then(data => showData3(data.allStatic));
+        function showData3(newData) {
+            var i, j;
+            var browserCounts = {};
+            for (i = 0; i < newData.length; i++) {
+                if (newData[i].userAgentString in browserCounts){
+                    browserCounts[newData[i].userAgentString] = browserCounts[newData[i].userAgentString] + 1;
                 }
-            },
-            source: {
-                text: 'gs.statcounter.com',
-                fontColor: "#8e99a9",
-                fontFamily: "Open Sans"
-            },
-            title: {
-                fontColor: "#8e99a9",
-                text: 'Global Browser Usage',
-                align: "left",
-                offsetX: 10,
-                fontFamily: "Open Sans",
-                fontSize: 25
-            },
-            subtitle: {
-                offsetX: 10,
-                offsetY: 10,
-                fontColor: "#8e99a9",
-                fontFamily: "Open Sans",
-                fontSize: "16",
-                text: 'May 2016',
-                align: "left"
-            },
-            plotarea: {
-                margin: "20 0 0 0"
-            },
-            series: [{
-                values: [11.38],
-                text: "Internet Explorer",
-                backgroundColor: '#50ADF5',
-                },
-                {
-                values: [56.94],
-                text: "Chrome",
-                backgroundColor: '#FF7965',
-                detached: true
-                },
-                {
-                values: [14.52],
-                text: 'Firefox',
-                backgroundColor: '#FFCB45',
-                detached: true
-                },
-                {
-                text: 'Safari',
-                values: [9.69],
-                backgroundColor: '#6877e5'
-                },
-                {
-                text: 'Other',
-                values: [7.48],
-                backgroundColor: '#6FB07F'
+                else{
+                    browserCounts[newData[i].userAgentString] = 1;
                 }
-            ]
-            };
- 
-zingchart.render({
-  id: 'pieChart',
-  data: pieConfig,
-  height: '100%',
-  width: '100%'
-});
-        
+            }
+            var results = [];
+            for (let key in browserCounts){
+                if (key.indexOf("Edge") != -1){
+                    results.push({
+                        values: [browserCounts[key]],
+                        text: 'Edge',
+                    });
+                }
+                else if (key.indexOf("Chrome") != -1){
+                    results.push({
+                        values: [browserCounts[key]],
+                        text: 'Chrome',
+                    });
+                }
+                else if (key.indexOf("Firefox") != -1){
+                    results.push({
+                        values: [browserCounts[key]],
+                        text: 'Firefox',
+                    });
+                }
+                else {
+                    results.push({
+                        values: [browserCounts[key]],
+                        text: 'Safari',
+                    });
+                }
+            }
+            zingchart.exec('pieChart', 'setseriesdata', {
+                data: results
+            });
+        }
     </script> 
 </body>
 
