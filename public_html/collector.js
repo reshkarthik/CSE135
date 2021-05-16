@@ -79,39 +79,39 @@ var endTime; new Date().getTime();
 var loadTime;
 var data;
 window.addEventListener('load', (event) => {
-    // fetch('https://reshmakarthik.studio/api/static', {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //         'X-Accept-Cookies': checkCookies(),
-    //         'X-Accept-Images': checkImage(),
-    //         'X-Accept-CSS': checkCSS(),
-    //         'X-Screen-Dim': JSON.stringify({ "width": screen.width, "height": screen.height }),
-    //         'X-Window-Dim': JSON.stringify({ "width": window.outerWidth, "height": window.outerHeight }),
-    //         'X-JS-Enabled': true,
-    //         'X-Session-ID': sessID
-    //     }
-    // })
-    //     .then(response => response.json())
-    //     .catch((error) => {
-    //         console.error('Error:', error);
-    //     });
+    fetch('https://reshmakarthik.studio/api/static', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Accept-Cookies': checkCookies(),
+            'X-Accept-Images': checkImage(),
+            'X-Accept-CSS': checkCSS(),
+            'X-Screen-Dim': JSON.stringify({ "width": screen.width, "height": screen.height }),
+            'X-Window-Dim': JSON.stringify({ "width": window.outerWidth, "height": window.outerHeight }),
+            'X-JS-Enabled': true,
+            'X-Session-ID': sessID
+        }
+    })
+        .then(response => response.json())
+        .catch((error) => {
+            console.error('Error:', error);
+        });
     endTime = new Date().getTime();
     loadTime = endTime - startTime;
     data = { "startTime": startTime, "endTime": endTime, "loadTime": loadTime, 'sessID': sessID };
-    // fetch('https://reshmakarthik.studio/api/performance', {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(data)
-    // })
-    //     .then(response => response.json())
-    //     .catch((error) => {
-    //         console.error('Error:', error);
-    //     });
+    fetch('https://reshmakarthik.studio/api/performance', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => response.json())
+        .catch((error) => {
+            console.error('Error:', error);
+        });
     Activity(true, { "sessID": sessID, "timeEntered": endTime, "page": window.location.pathname });
-    // inactive();
+    inactive();
 });
 
 function inactive() {
@@ -122,7 +122,7 @@ function inactive() {
 
     function resetTimer() {
         if (time > 2000) {
-            Activity(false, { 'inactive': time })
+            Activity(false, { 'inactive': { "duration": time, "ended": new Date().getTime() } });
             console.log(time);
         }
         clearInterval(time);
@@ -148,18 +148,25 @@ window.addEventListener('scroll', function () {
     }, 150);
 }, false);
 
+let cursorX = 0;
+let cursorY = 0;
+var timer2 = null;
+window.addEventListener('mousemove', function (event) {
+    if (timer2 !== null) {
+        clearTimeout(timer2);
+    }
+    timer2 = setTimeout(function () {
+        cursorX = event.pageX;
+        cursorY = event.pageY;
+        Activity(false, { 'cursorMove': [cursorX, cursorY] });
+    }, 1000);
+}, false);
 
-
-window.addEventListener('mousemove', (event) => {
-    const cursorX = event.pageX;
-    const cursorY = event.pageY;
-
-});
-
-window.addEventListener('click', (event) => {
+window.addEventListener('mousedown', (event) => {
     const type = event.button;
     const cursorX = event.pageX;
     const cursorY = event.pageY;
+    console.log(type);
     Activity(false, { 'click': [type, cursorX, cursorY] })
 });
 

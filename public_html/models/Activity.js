@@ -23,16 +23,13 @@ const activitySchema = new mongoose.Schema({
         type: [],
         default: [],
     },
-    keyboard: {
-        type: {},
-        default: {}
+    keypresses: {
+        type: [],
+        default: []
     },
     idleTime: {
-        type: {},
-        default: {
-            ended: 0,
-            time: 0
-        }
+        type: [],
+        default: []
     },
     timeEntered: {
         type: Number,

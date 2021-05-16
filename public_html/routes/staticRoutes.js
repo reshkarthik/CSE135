@@ -10,7 +10,7 @@ router.use(bodyparser.json());
 
 router.get('/static', async (req, res) => {
     try {
-        res.json({ msg: "hello" });
+        res.json({ allStatic: await Static.find({}) });
     } catch (e) {
         console.log(e);
         res.send({ message: 'Error cannot view static logs' });
@@ -19,7 +19,13 @@ router.get('/static', async (req, res) => {
 
 router.get('/static/:id', async (req, res) => {
     try {
-        res.json({ msg: req.params.id });
+        var id = req.params.id;
+        const user = await Static.findById(id);
+        if (user === undefined || user === null) {
+            res.json({ msg: id + " does not exist" });
+            return;
+        }
+        res.json({ user: user });
     } catch (e) {
         console.log(e);
         res.send({ message: 'Error cannot view static logs for the given id' });
@@ -63,15 +69,56 @@ router.post('/static', async (req, res) => {
 
 router.delete('/static/:id', async (req, res) => {
     try {
-        res.json({ msg: req.params.id + "has been deleted" });
+        const user = await Static.findByIdAndDelete(id);
+        if (user === undefined || user === null) {
+            res.json({ msg: id + " does not exist" });
+            return;
+        }
+        res.json({ msg: req.params.id + " has been deleted" });
     } catch (e) {
         console.log(e);
-        res.send({ message: 'Error cannot view static logs for the given id' });
+        res.send({ message: 'Error cannot delete static logs for the given id' });
     }
 });
 
 router.put('/static/:id', async (req, res) => {
     try {
+        const id = req.params.id;
+        const user = await Activity.findById(id);
+        if (user === undefined || user === null) {
+            res.json({ msg: id + " does not exist" });
+            return;
+        }
+        const { userAgentString, userLang, cookies, javaScript,
+            images, CSS, screenDim, windowDim, networkConn } = req.body;
+
+        if (userAgentString !== undefined) {
+            user.$set({ userAgentString: userAgentString });
+        }
+        if (userLang !== undefined) {
+            user.$set({ userLang: userLang });
+        }
+        if (cookies !== undefined) {
+            user.$set({ cookies: cookies });
+        }
+        if (javaScript !== undefined) {
+            user.$set({ javaScript: javaScript });
+        }
+        if (images !== undefined) {
+            user.$set({ javaScript: javaScript });
+        }
+        if (CSS !== undefined) {
+            user.$set({ CSS: CSS });
+        }
+        if (screenDim !== undefined) {
+            user.$set({ screenDim: screenDim });
+        }
+        if (windowDim !== undefined) {
+            user.$set({ windowDim: windowDim });
+        }
+        if (networkConn !== undefined) {
+            user.$set({ networkConn: networkConn });
+        }
         res.json({ msg: req.params.id + "has been updated" });
     } catch (e) {
         console.log(e);
