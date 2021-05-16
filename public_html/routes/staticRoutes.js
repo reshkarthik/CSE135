@@ -35,7 +35,10 @@ router.get('/static/:id', async (req, res) => {
 router.post('/static', async (req, res) => {
     try {
         const agent = req.get('user-agent');
-        const lang = req.get('accept-language');
+        var lang = req.get('accept-language');
+        if (lang !== undefined) {
+            land = lang.split(",")[0]
+        }
         const cookies = req.get('X-Accept-Cookies');
         const images = req.get('X-Accept-Images');
         const css = req.get('X-Accept-CSS');
@@ -44,8 +47,8 @@ router.post('/static', async (req, res) => {
         const window = req.get('X-Window-Dim');
         const conn = req.get('Connection');
         var session = req.get('X-Session-ID');
-        if (session === undefined) {
-            session = fs.readFileSync('newfile.txt', 'utf8');
+        if (session === undefined || session === "") {
+            session = fs.readFileSync('sessionID.txt', 'utf8');
         }
         const newUser = new Static({
             user: session,

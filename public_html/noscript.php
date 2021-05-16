@@ -12,7 +12,7 @@ $options = array(
 );
 $context  = stream_context_create($options);
 $result = file_get_contents($url, false, $context);
-$myfile = fopen("newfile.txt", "w") or die("Unable to open file!");;
+$myfile = fopen("staticID.txt", "w") or die("Unable to open file!");;
 fwrite($myfile, createSession());
 fclose($myfile);
 

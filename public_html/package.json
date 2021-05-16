@@ -11,7 +11,8 @@
     "mongoose": "^5.12.7",
     "node-navigator": "^1.0.1",
     "nodemon": "^2.0.7",
-    "zingchart": "^2.9.4"
+    "zingchart": "^2.9.4",
+    "zinggrid": "^1.2.5"
   },
   "devDependencies": {
     "json-server": "^0.16.3"
