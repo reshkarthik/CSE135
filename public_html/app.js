@@ -1,36 +1,37 @@
-require('./models/Static');
-require('./models/Performance');
-require('./models/Activity');
-
-
 const express = require('express');
 const mongoose = require('mongoose');
 
 const mongoUri =
     'mongodb+srv://cse135:its135@135.uyiq0.mongodb.net/135Database'
-const staticRoutes = require('./routes/staticRoutes.js');
-const performanceRoutes = require('./routes/performanceRoutes.js');
-const activityRoutes = require('./routes/activityRoutes.js');
-
-
-mongoose.connect(mongoUri, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-});
-
-mongoose.connection.on('connected', () => {
-    console.log('Connected to mongo instance');
-});
-mongoose.connection.on('error', (err) => {
-    console.log('Error connecting to mongo instance', err);
-});
-
-
+const port = 3001
 const app = express();
-app.use(staticRoutes);
-app.use(performanceRoutes);
-app.use(activityRoutes);
 
-app.listen(3005, () => {
-    console.log('Listening on port 3005');
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    req.redirect('login');
+}
+
+app.get('/login', function (req, res) {
+    res.sendFile('login.html', { root: __dirname });
+});
+
+app.post('/login', passport.authenticate('local', { successRedirect: 'home', failureRedirect: 'login' }));
+
+app.get('/logout', function (req, res) {
+    req.logout();
+    req.redirect('login');
+})
+
+app.get('/home', ensureAuthenticated, function (req, res) {
+    res.sendFile('index.html', { root: __dirname });
+});
+
+app.get('/reports', ensureAuthenticated, function (req, res) {
+    res.sendFile('reports.html', { root: __dirname });
+});
+
+app.listen(port, () => {
+    console.log('Listening on port 3001');
 });
